@@ -39,3 +39,19 @@ of the class.
 
 QUESTION? What happens when you compile a .java file with multiple classes in it?
 Does your folder fill up with a bunch of .class files?
+
+
+----------------------------
+
+primitive datatypes in Java:
+
+boolean: True or False
+char: 16-bit unicode character (unsigned)
+byte: 8 bit integer (signed)
+short: 16 bit integer (signed)
+int: 32 bit integer (signed)
+long: 64 bit integer (signed)
+float: 32 bit floating point IEEE 754
+double: 64 bit floating point IEEE 754
+
+in most contexts the language automatically converts between primitive types and wrapper class
