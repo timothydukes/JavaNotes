@@ -1,0 +1,41 @@
+Simple Java Program: One class.
+
+
+
+
+class FibonacciTrill{
+	public static void main (String[] args){
+
+		/* Find the sum of terms in fibonacci sequence that
+    are multiples of 10, less than 1 trillion*/
+		long sum=0;
+		long a=1,b=1;	
+		while (a<1000000000000){
+						
+			b=a+b;
+			a=b-a;
+			if(a%10==0){
+				sum+=a;
+			}
+		}
+		System.out.println(sum);
+	}
+}
+
+
+
+
+How to run the program?
+First save as FibonacciTrill.java
+Then run command javac FibonacciTrill.java
+Then run java FibonacciTrill
+
+
+NB: First, you have to install JDK. This will give you java and javac (java compiler).
+Second, the command "java FibonacciTrill" refers to the class name.
+So far, I have been compiling programs with ONE class and the name of the file is the name
+of the class.
+
+
+QUESTION? What happens when you compile a .java file with multiple classes in it?
+Does your folder fill up with a bunch of .class files?
