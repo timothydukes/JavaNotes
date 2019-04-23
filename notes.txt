@@ -1,6 +1,106 @@
+Notes on "The Java Programming Language, Fourth Edition" by Ken Arnold, James Gosling, and David Holmes
+
+Chapter 1: A Quick Tour
+Chapter 2: Classes and Objects
+Chapter 3: Extending Classes
+Chapter 4: Interfaces
+Chapter 5: Nested Classes and Interfaces
+Chapter 6: Enumeration Types
+Chapter 7: Tokens, Values, and Variables
+Chapter 8: Primitives as Types
+Chapter 9: Operators and Expressions
+Chapter 10: Control Flow
+Chapter 11: Generic Types
+Chapter 12: Exceptions and Assertions
+Chapter 13: Strings and Regular Expressions
+Chapter 14: Threads
+Chapter 15: Annotations
+Chapter 16: Reflection
+Chapter 17: Garbage Collection and Memory
+Chapter 18: Packages
+Chapter 19: Documentation Comments
+Chapter 20: The I/O Package
+Chapter 21: Collections
+Chapter 22: Mescellaneous Utilities
+Chapter 23: System Programming
+Chapter 24: Internationalization and Localization
+Chapter 25: Standard Packages
+
+
+=========================================================
+
+
+Java reserved keywords: there are 57 of them. You cannot name a variable, method, or class (or identifier) with these.
+abstract
+assert
+boolean
+break (comparable to pass in python?)
+byte
+case
+catch
+char
+class
+continue (comparable to pass in python? what is difference between break and continue?)
+default
+do
+double
+else
+enum
+exports
+extends
+final
+finally
+float
+for
+if
+implements
+import
+instanceof
+int
+interface
+long
+module
+native
+new
+package
+private
+protected
+public
+requires
+return
+short
+static
+strictfp
+super
+switch
+synchronized
+this
+throw
+throws
+transient
+try
+void
+volatile
+while
+
+true
+false
+null
+
+const (unused)
+goto (unused)
+
+
+
+
+
+
+
+
+
+Chapter 1: A Quick Tour
+
 Simple Java Program: One class.
-
-
 
 
 class FibonacciTrill{
@@ -55,3 +155,232 @@ float: 32 bit floating point IEEE 754
 double: 64 bit floating point IEEE 754
 
 in most contexts the language automatically converts between primitive types and wrapper class
+
+---------------------------------
+
+Control flow:
+for, ifelse, switch, dowhile, while...
+
+syntax example: 
+if (a<b)
+	return a;
+else
+	return b;
+	
+No colons, as there are in python.
+
+
+-------------------------------------
+
+
+named constants are a good idea.
+
+static final int MAX=50; //maximum value for something
+
+groups of named constants are nicely represented by enums (enumeration)
+enum is a special class with named constants
+
+enum Suit {CLUBS, DIAMONDS, HEARTS, SPADES};
+
+-----------------------------------------------
+
+Classes and objects
+
+Every object has a class that defines its DATA and BEHAVIOR
+Every class has three kinds of members:
+	1. Fields are data variables associated with a class and its objects
+	2. Methods are the executable code of a class
+	3. Classes and interfaces can be members of other classes and interfaces
+	
+simple examples
+
+class Point{
+	//point in a two-dimensional plane
+	public double x,y;
+}
+
+class Circle{
+	//circle in a two-dimesional plane
+	public double x,y,radius;
+}
+
+
+Objects are created with expressions involving the keyword new
+	
+This is important: objects are accessed via object references.
+Variables that hold an object actually hold a reference to an object.
+The type of such a variable is a reference type.
+Primitive types hold the values of that type.
+
+
+
+instance variables:
+consider if you make two points.
+Each instance has different x and y.
+
+class Point{
+	public double x,y;
+}
+Point left = new Point();
+Point right = new Point();
+left.x=0;
+left.y=0;
+right.x=10;
+right.y=0;
+
+left.x=5;
+
+Static or Class fields
+All objects of that class share a variable.
+
+Let us make the Point class more complex.
+
+class Point{
+	
+	private double x,y;
+	
+	public void clear(){
+	x=0.0;
+	y=0.0;
+	}
+	
+	public double getx(){
+		return x;
+	}
+	
+	public double gety(){
+		return y;
+	}
+	
+	public double distance (Point other){
+		double xdist=x-other.getx();
+		double ydist=y-other.gety();
+		return Math.sqrt(xdist*xdist+ydist*ydist);
+	}
+
+}
+	
+	
+Array: a collection of variables all of the same type.
+Array's length is fixed when created and can never change!
+When an array is created, its elements are implicitly initialized to null.
+
+Array has length field.
+
+a = new Point[10];
+a.length==10;
+
+
+conditional OR: || instead of |. evaluates right hand side only if lefthand side is true
+
+if(values==null || values.length==0)
+	throw new IllegalArgumentException():
+	
+if values==null, then values.length==0 will be an exception!
+so you want to check left hand side first and only then proceed
+
+
+String str="abcde";
+str.charAt(0)=='a';
+String objects are read-only and immutable
+Every time you goof with a string, you get  anew one.
+StringBuilder and StringBuffer provide for mutable strings.
+If you are building a string, use one of those. Otherwise you are creating
+all your intermediate steps as strings, unnecessarily adding to the number 
+of objects.
+
+String a="fuck";
+String b="fuc";
+
+b=b+"k";
+a==b;//false
+a.equals(b);//true
+
+String c=a;
+a==c;//true
+a="shit";
+c.equals("fuck");//true
+
+
+Extending a class
+You can extend or subclass a class. If the subclass does not specifically override the behavior
+of the superclass, then it inherits all of the behavior (fields, methods).
+
+Invoking method of superclass. "super" is like "this"
+
+Classes that do not extend another class implicitly extend Object.
+
+You can always instantiate an object by naming a superclass.
+
+class GayPoint extends Point{
+	boolean orientation;
+	public void init(double xx,double yy){
+		super.init(xx,yy);
+		orientation=!orientation;
+	}
+}
+
+
+Point p = new Point();
+Point q = new GayPoint();
+Object r = new Point();
+r = "a string";
+
+
+Type casting
+String name = "Tim";
+Object obj = name;
+name=obj;// WILL NOT COMPILE
+
+What happened? name is a reference to a String. obj is a reference to an Object.
+obj can point to name. but name cannot point to obj.
+
+name = (String) obj; //OK
+
+Interfaces
+Sometimes you only want to declare methods that an object must support, but not implement them.
+Interface can declare static final members (constants). All members of interface are public.
+
+Generic Types
+Classes and interfaces can be declared to be generic types.
+Then you use "implements" instead of "extends"
+
+How it is done: with <>
+interface Lookup<T>{
+	T find (String name);
+}
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+Chapter 2: Classes and Objects
+Chapter 3: Extending Classes
+Chapter 4: Interfaces
+Chapter 5: Nested Classes and Interfaces
+Chapter 6: Enumeration Types
+Chapter 7: Tokens, Values, and Variables
+Chapter 8: Primitives as Types
+Chapter 9: Operators and Expressions
+Chapter 10: Control Flow
+Chapter 11: Generic Types
+Chapter 12: Exceptions and Assertions
+Chapter 13: Strings and Regular Expressions
+Chapter 14: Threads
+Chapter 15: Annotations
+Chapter 16: Reflection
+Chapter 17: Garbage Collection and Memory
+Chapter 18: Packages
+Chapter 19: Documentation Comments
+Chapter 20: The I/O Package
+Chapter 21: Collections
+Chapter 22: Mescellaneous Utilities
+Chapter 23: System Programming
+Chapter 24: Internationalization and Localization
+Chapter 25: Standard Packages
+
