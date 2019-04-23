@@ -351,16 +351,146 @@ interface Lookup<T>{
 }
 
 
-	
-	
-	
-	
-	
+==============================================================	
 	
 	
 	
 Chapter 2: Classes and Objects
+
+ type				initial value
+ boolean			false
+ char				'\u0000'
+ byte, short, int, long		0
+ float, double			+0.0
+ object reference		null
+ 
+ static fields are shared by all instances of a class
+ final fields are constant, immutable
+ 
+ access control
+ private members only accessible in the class
+ package members only accessible to classes in package
+ protected members accessible in the class and subclasses
+ public members accessible anywhere the class is
+ 
+ access control is per-class or per-interface, NOT per object
+ 
+ making constructor
+ 
+ a simple pattern is to have increasing complexity based on arguments
+ 
+ class Body{
+ 	public int idNum;
+	public String name = "<unnamed>";
+	public Body orbits = null;
+	private static int nextID = 0;
+	
+	Body(){
+		idNum = nextID++;
+	}
+	
+	Body(String bodyName){
+		this();
+		name=bodyName;
+	}
+	
+	Body(String bodyName, Body orbitsAround){
+		this(bodyName);
+		orbits=orbitsAround;
+	}
+	
+	//copy constructor
+	Body (Body other){
+		idNum=other.idNum;
+		name=other.name;
+		orbits=other.orbits;
+	}
+ 
+ }
+
+
+
+static methods are class methods. static methods can only access static members.
+
+reference.method(arguments)
+
+
+every method has a specific number of parameters of specific types
+however!, the last parameter can be a sequence
+for example (String...)
+
+private void something(boolean wut, String... messages){
+	//blah
+}
+this method can be called with 
+something(false, "hi")
+something(true, "hi","ho","foo")
+etc.
+
+
+
+
+in Java, parameters to methods are passed "by value"!
+that means you are working with a copy, you can manipulate the parameter
+without having side effects on what you are working with.
+
+
+each method has a signature (number and type of parameters)
+you can overload a method by writing it with different parameters
+
+public boolean orbitsAround(Body other){
+	return (orbits==other);
+}
+
+public boolean orbitsAround(int id){
+	return (orbits!=null && orbits.idNum==id);
+}
+
+import static java.lang.Math.exp; //whenever compiler sees exp, it looks here
+import static java.lang.Math.*; //whever compiler sees unknown methods, it checks Math
+
+
+
+=================================================================
 Chapter 3: Extending Classes
+
+the constructor of an extended class can invoke one of the superclass's constructors
+
+class Point{
+	double x,y;
+	Point(double x,double y){
+	this.x=x;
+	this.y=y;
+	}
+}
+
+class Ball extends Point{
+	double radius;
+	Ball(double x, double y, double radius){
+		super(x,y);
+		this.radius=radius;
+	}
+}
+
+
+constructor order dependencies
+1. Invoke superclass constructor
+2. Initialize fields using initializers and initializer blocks
+3. Execute body of constructor
+
+
+overriding method
+if you override a method, you have a method with the same signature but different return type.
+the only way this is allowed is if return type is a subtype of the overridden return type
+
+
+private methods are not accessible to sublcasses
+
+
+Java has single inheritance. If you want multiple inheritance, you will need an interface. 
+
+
+================================================================
 Chapter 4: Interfaces
 Chapter 5: Nested Classes and Interfaces
 Chapter 6: Enumeration Types
